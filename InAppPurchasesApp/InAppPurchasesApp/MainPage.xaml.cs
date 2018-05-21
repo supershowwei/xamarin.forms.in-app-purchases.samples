@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using InAppPurchasesApp.Protocol;
 using Xamarin.Forms;
 
@@ -18,6 +19,15 @@ namespace InAppPurchasesApp
             try
             {
                 var paymentTransaction = await inAppPurchases.PurchaseAsync("iaptest.product.1week");
+
+                //var paymentTransaction = await Task.Run(() =>
+                //    {
+                //        var purchaseTask = inAppPurchases.PurchaseAsync("iaptest.product.1week");
+
+                //        purchaseTask.Wait();
+
+                //        return purchaseTask.Result;
+                //    });
             }
             catch (Exception ex)
             {
