@@ -14,7 +14,7 @@ namespace InAppPurchasesApp
 
         private async void Purchase(object sender, EventArgs e)
         {
-            var inAppPurchases = DependencyService.Get<IInAppPurchaes>();
+            var inAppPurchases = DependencyService.Get<IInAppPurchases>();
 
             try
             {

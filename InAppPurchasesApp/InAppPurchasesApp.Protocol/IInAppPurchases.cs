@@ -3,7 +3,7 @@ using InAppPurchasesApp.Protocol.Model;
 
 namespace InAppPurchasesApp.Protocol
 {
-    public interface IInAppPurchaes
+    public interface IInAppPurchases
     {
         Task<PaymentTransaction> PurchaseAsync(string productId);
     }

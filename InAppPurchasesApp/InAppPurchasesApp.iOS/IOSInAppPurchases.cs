@@ -7,15 +7,15 @@ using InAppPurchasesApp.Protocol.Model;
 using StoreKit;
 using Xamarin.Forms;
 
-[assembly: Dependency(typeof(IOSInAppPurchaes))]
+[assembly: Dependency(typeof(IOSInAppPurchases))]
 
 namespace InAppPurchasesApp.iOS
 {
-    public class IOSInAppPurchaes : IInAppPurchaes, IDisposable
+    public class IOSInAppPurchases : IInAppPurchases, IDisposable
     {
         private IOSTransactionObserver transactionObserver;
 
-        public IOSInAppPurchaes()
+        public IOSInAppPurchases()
         {
             this.transactionObserver = new IOSTransactionObserver();
 
