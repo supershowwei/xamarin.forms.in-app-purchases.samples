@@ -30,7 +30,7 @@ namespace InAppPurchasesApp.iOS
             var reference = new DateTime(2001, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 
             var purchase = new PaymentTransaction();
-            purchase.TransactionUtcDate = reference.AddSeconds(paymentTrans.TransactionDate.SecondsSinceReferenceDate);
+            purchase.UtcDate = reference.AddSeconds(paymentTrans.TransactionDate.SecondsSinceReferenceDate);
             purchase.Id = paymentTrans.TransactionIdentifier;
             purchase.ProductId = paymentTrans.Payment?.ProductIdentifier ?? string.Empty;
             purchase.State = paymentTrans.TransactionState.ToString();
@@ -56,27 +56,27 @@ namespace InAppPurchasesApp.iOS
         {
             var tcsTransaction = new TaskCompletionSource<SKPaymentTransaction>();
 
-            void Handler(SKPaymentTransaction trans, bool result)
+            void TransactionCompletedHandler(SKPaymentTransaction trans, bool result)
             {
                 if (trans?.Payment == null) return;
 
                 if (productId != trans.Payment.ProductIdentifier) return;
 
-                this.transactionObserver.TransactionCompleted -= Handler;
+                this.transactionObserver.TransactionCompleted -= TransactionCompletedHandler;
 
                 if (result)
                 {
-                    tcsTransaction.TrySetResult(trans);
+                    tcsTransaction.SetResult(trans);
                     return;
                 }
 
                 var errorCode = trans.Error?.Code ?? -1;
                 var description = trans.Error?.LocalizedDescription ?? string.Empty;
 
-                tcsTransaction.TrySetException(new Exception($"交易失敗（errorCode: {errorCode}）\r\n{description}"));
+                tcsTransaction.SetException(new Exception($"交易失敗（errorCode: {errorCode}）\r\n{description}"));
             }
 
-            this.transactionObserver.TransactionCompleted += Handler;
+            this.transactionObserver.TransactionCompleted += TransactionCompletedHandler;
 
             // 購買
             SKPaymentQueue.DefaultQueue.AddPayment(SKPayment.CreateFrom(productId));
